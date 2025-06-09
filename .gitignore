@@ -1,0 +1,42 @@
+# Ignore root-level env file
+.env
+
+# Ignore .env files in all subdirectories
+**/.env
+
+# Ignore compiled Python files
+__pycache__/
+*.py[cod]
+
+# Ignore logs
+logs/
+*.log
+
+# Ignore Airflow logs
+airflow/logs/
+
+# Ignore database files (if any local SQLite or other used)
+*.db
+*.sqlite3
+
+# Ignore VSCode settings
+.vscode/
+
+# Ignore Docker-related metadata
+*.pid
+*.sock
+
+# Ignore Python virtual environments
+.venv/
+venv/
+
+# Ignore dbt artifacts
+dbt/target/
+dbt/dbt_modules/
+
+# Ignore Streamlit cache
+streamlit/.streamlit/
+
+# Optional: Ignore any IDE-specific files
+.DS_Store
+.idea/

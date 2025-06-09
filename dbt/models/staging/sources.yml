@@ -1,0 +1,7 @@
+version: 2
+
+sources:
+  - name: spotify          # matches the source() call: source('spotify', 'spotify_tracks')
+    schema: raw            # must match the schema in Snowflake
+    tables:
+      - name: spotify_tracks

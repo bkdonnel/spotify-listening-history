@@ -1,0 +1,4 @@
+dbt-core==1.7.5
+dbt-snowflake==1.7.5
+python-dotenv==1.0.1
+protobuf==4.24.4

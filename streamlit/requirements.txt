@@ -1,0 +1,8 @@
+streamlit
+pandas
+sqlalchemy
+snowflake-connector-python
+snowflake-sqlalchemy
+psycopg2-binary
+python-dotenv
+altair

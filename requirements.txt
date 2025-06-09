@@ -1,0 +1,5 @@
+requests
+snowflake-connector-python
+python-dotenv
+pandas
+spotipy
