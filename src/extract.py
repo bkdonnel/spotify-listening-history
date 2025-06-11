@@ -11,16 +11,24 @@ CLIENT_ID = os.getenv("SPOTIPY_CLIENT_ID")
 CLIENT_SECRET = os.getenv("SPOTIPY_CLIENT_SECRET")
 REDIRECT_URI = os.getenv("REDIRECT_URI")
 SCOPE = "user-read-recently-played"
+REFRESH_TOKEN = os.getenv("SPOTIPY_REFRESH_TOKEN")
 
 def get_spotify_client():
-    """Handles authentication and token refreshing with caching."""
-    return spotipy.Spotify(auth_manager=SpotifyOAuth(
+    auth_manager = SpotifyOAuth(
         client_id=CLIENT_ID,
         client_secret=CLIENT_SECRET,
         redirect_uri=REDIRECT_URI,
         scope=SCOPE,
-        cache_path=os.path.join(os.getcwd(), ".cache")
-    ))
+        cache_path=None  # disable caching for headless
+    )
+    # Set the refresh token manually
+    auth_manager.refresh_token = REFRESH_TOKEN
+
+    # Refresh the access token
+    token_info = auth_manager.refresh_access_token(REFRESH_TOKEN)
+    access_token = token_info['access_token']
+
+    return spotipy.Spotify(auth=access_token)
 
 def fetch_recent_tracks():
     """Fetch recently played tracks with full details including genres."""

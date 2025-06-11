@@ -3,6 +3,8 @@ from airflow.operators.bash import BashOperator
 from airflow.operators.python import PythonOperator
 from datetime import datetime, timedelta
 
+import os
+
 default_args = {
     'owner': 'bryan',
     'depends_on_past': False,
@@ -14,7 +16,7 @@ with DAG(
     'spotify_etl_pipeline',
     default_args=default_args,
     description='Spotify Listening History ETL',
-    schedule_interval='30 23 * * *',
+    schedule_interval="0 4,16 * * *",
     start_date=datetime(2024, 1, 1),
     catchup=False
 ) as dag:
@@ -28,10 +30,21 @@ with DAG(
         task_id='load_data_to_snowflake',
         bash_command='python /opt/spotify/src/load.py'
     )
-
-    run_dbt = BashOperator(
+    
+    run_dbt_models = BashOperator(
         task_id='run_dbt_models',
-        bash_command='dbt run --project-dir /opt/spotify/dbt'
-    )
+        bash_command='~/.local/bin/dbt run --project-dir /usr/app --profiles-dir /usr/app/.dbt',
+        env={
+            'SNOWFLAKE_ACCOUNT': os.environ.get('SNOWFLAKE_ACCOUNT'),
+            'SNOWFLAKE_USER': os.environ.get('SNOWFLAKE_USER'),
+            'SNOWFLAKE_PASSWORD': os.environ.get('SNOWFLAKE_PASSWORD'),
+            'SNOWFLAKE_ROLE': os.environ.get('SNOWFLAKE_ROLE'),
+            'SNOWFLAKE_DATABASE': os.environ.get('SNOWFLAKE_DATABASE'),
+            'SNOWFLAKE_WAREHOUSE': os.environ.get('SNOWFLAKE_WAREHOUSE'),
+            'SNOWFLAKE_SCHEMA': os.environ.get('SNOWFLAKE_SCHEMA'),
+            },
+            dag=dag,
+            )
 
-    extract >> load >> run_dbt
+
+    extract >> load >> run_dbt_models
