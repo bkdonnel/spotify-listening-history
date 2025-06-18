@@ -40,3 +40,8 @@ streamlit/.streamlit/
 # Optional: Ignore any IDE-specific files
 .DS_Store
 .idea/
+
+# Ignore private keys
+streamlit/secrets/rsa_key.der
+streamlit/secrets/rsa_key.pem
+streamlit/secrets/rsa_key.pub

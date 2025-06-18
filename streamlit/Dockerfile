@@ -7,6 +7,9 @@ WORKDIR /app
 # Copy Streamlit app code
 COPY . .
 
+# Copy private RSA key into the container
+COPY secrets/rsa_key.der /app/secrets/rsa_key.der
+
 # Install system dependencies (if needed)
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \

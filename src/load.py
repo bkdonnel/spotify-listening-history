@@ -2,6 +2,8 @@ import os
 import pandas as pd
 import snowflake.connector
 from dotenv import load_dotenv
+from pathlib import Path
+from cryptography.hazmat.primitives import serialization
 
 load_dotenv()
 
@@ -18,11 +20,28 @@ def load_to_snowflake(records, table_name="spotify_tracks"):
     full_table_name = f"{database}.{schema}.{table_name}"
     temp_table = f"{database}.{schema}.{table_name}_staging"
 
-    # Connect to Snowflake
+    # Load RSA private key from DER file and convert to PKCS8 DER bytes
+    private_key_path = os.getenv("SNOWFLAKE_PRIVATE_KEY_PATH")
+    if not private_key_path or not Path(private_key_path).exists():
+        raise FileNotFoundError(f"Private key file not found at {private_key_path}")
+
+    with open(private_key_path, "rb") as key_file:
+        private_key_obj = serialization.load_der_private_key(
+            key_file.read(),
+            password=None,
+        )
+
+    private_key_bytes = private_key_obj.private_bytes(
+        encoding=serialization.Encoding.DER,
+        format=serialization.PrivateFormat.PKCS8,
+        encryption_algorithm=serialization.NoEncryption()
+    )
+
+    # Connect to Snowflake using RSA key
     conn = snowflake.connector.connect(
         user=os.getenv("SNOWFLAKE_USER"),
-        password=os.getenv("SNOWFLAKE_PASSWORD"),
         account=os.getenv("SNOWFLAKE_ACCOUNT"),
+        private_key=private_key_bytes,
         warehouse=os.getenv("SNOWFLAKE_WAREHOUSE"),
         database=database,
         schema=schema,
