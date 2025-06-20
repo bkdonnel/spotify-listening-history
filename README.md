@@ -12,10 +12,7 @@ This project demonstrates an end-to-end modern data stack using:
 - **Streamlit** – interactive dashboard to explore your listening habits.
 - **Docker** – for containerized deployment of all services.
 
-<p align="center">
-  <img src="'/Users/bryandonnelly/Desktop/Screenshot 2025-06-18 at 2.32.35 PM.png'" alt="Dashboard Screenshot" width="700">
-</p>
-
+![Screenshot](images/Screenshot 2025-06-18 at 2.32.35 PM.png)
 ---
 
 ## Features
