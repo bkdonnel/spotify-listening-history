@@ -12,7 +12,7 @@ This project demonstrates an end-to-end modern data stack using:
 - **Streamlit** – interactive dashboard to explore your listening habits.
 - **Docker** – for containerized deployment of all services.
 
-![Screenshot](images/Screenshot 2025-06-18 at 2.32.35 PM.png)
+![Screenshot](images/spotify_dashboard.png)
 ---
 
 ## Features
