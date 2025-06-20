@@ -29,5 +29,4 @@ This project demonstrates an end-to-end modern data stack using:
 
 ## Architecture
 
-```text
-User → Spotify API → Airflow (ETL) → Snowflake (raw → analytics via dbt) → Streamlit (dashboard)
+![Screenshot](images/spotify_diagram.png)
